@@ -1,4 +1,5 @@
-![github](https://github.com/rafatrace/trackist/assets/924985/5911209c-80f9-4df7-a10c-8e089bf40a61)
+![github](https://github.com/rafatrace/trackist/assets/924985/80979d7b-2020-4401-8114-a984d8e3094b)
+
 
 # Trackist
 

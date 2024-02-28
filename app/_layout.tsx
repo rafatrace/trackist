@@ -1,5 +1,7 @@
 import { SplashScreen, Stack } from 'expo-router'
 import { useEffect } from 'react'
+import useDatabase from '~hooks/useDatabase'
+import HabitsProvider from '~providers/HabitsProvider'
 import ThemeProvider from '~providers/ThemeProvider'
 
 if (__DEV__) {
@@ -9,20 +11,26 @@ if (__DEV__) {
 SplashScreen.preventAutoHideAsync()
 
 export default function Layout() {
+  // Services
+  const { ready, error } = useDatabase()
+
   useEffect(() => {
-    // Placeholder timeout before db search is developer
-    setTimeout(() => {
+    if (ready) {
       SplashScreen.hideAsync()
-    }, 2000)
-  }, [])
+    }
+  }, [ready])
+
+  if (error != null) return null
 
   return (
     <ThemeProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="settings" options={{ title: 'Settings' }} />
-        <Stack.Screen name="archive" options={{ title: 'Archive' }} />
-      </Stack>
+      <HabitsProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="settings" options={{ title: 'Settings', presentation: 'modal' }} />
+          <Stack.Screen name="archive" options={{ title: 'Archive', presentation: 'modal' }} />
+        </Stack>
+      </HabitsProvider>
     </ThemeProvider>
   )
 }

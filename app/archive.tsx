@@ -4,7 +4,7 @@ import TextLabel from '~components/atoms/TextLabel'
 export default function Archive() {
   return (
     <Block>
-      <TextLabel>Archive</TextLabel>
+      <TextLabel>Go to Archive</TextLabel>
     </Block>
   )
 }

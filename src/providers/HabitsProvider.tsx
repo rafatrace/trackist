@@ -9,7 +9,7 @@ import getActiveHabits from '~queries/getActiveHabits'
  */
 export const HabitsContext = createContext<{
   activeHabits: THabit[]
-  addNew: (title: string) => void
+  addNew: (title: string) => Promise<any>
 }>({
   activeHabits: [],
   addNew: null

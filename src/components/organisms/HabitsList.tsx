@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import { THabit } from '~@types/habits'
 import Block from '~components/atoms/Block'
 import ActiveHabitRow from '~components/molecules/ActiveHabitRow'
+import NewHabitInput from '~components/molecules/NewHabitInput'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
 
@@ -16,10 +17,11 @@ const HabitsList = ({ habits }: THabitsListProps) => {
   return (
     <Block flex={1} style={styles.container}>
       <Block style={{ ...styles.backPanel, backgroundColor: colors.n20 }}>
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <ScrollView contentContainerStyle={styles.scrollView} keyboardShouldPersistTaps="handled">
           {habits.map((habit, index) => (
             <ActiveHabitRow key={habit.id} {...{ habit }} isLast={index === habits.length - 1} />
           ))}
+          <NewHabitInput />
         </ScrollView>
       </Block>
     </Block>

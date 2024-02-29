@@ -1,6 +1,5 @@
 import { StyleSheet, TouchableHighlight } from 'react-native'
 import Icon from '~components/atoms/Icon'
-import TextLabel from '~components/atoms/TextLabel'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
 

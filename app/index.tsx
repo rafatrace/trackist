@@ -1,3 +1,4 @@
+import { KeyboardAvoidingView, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Block from '~components/atoms/Block'
 import HabitsListTitle from '~components/molecules/HabitsListTitle'
@@ -11,13 +12,19 @@ export default function App() {
   const { colors } = useTheme()
   const { activeHabits } = useHabits()
 
+  // Check platform
+  const isIos = Platform.OS === 'ios'
+  const behavior = isIos ? 'padding' : 'height'
+
   return (
-    <Block flex={1} style={{ backgroundColor: colors.n10 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <HabitsListTitle total={activeHabits.length} />
-        <HabitsList habits={activeHabits} />
-        <BottomTab />
-      </SafeAreaView>
-    </Block>
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={behavior} enabled keyboardVerticalOffset={0}>
+      <Block flex={1} style={{ backgroundColor: colors.n10 }}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <HabitsListTitle total={activeHabits.length} />
+          <HabitsList habits={activeHabits} />
+          <BottomTab />
+        </SafeAreaView>
+      </Block>
+    </KeyboardAvoidingView>
   )
 }

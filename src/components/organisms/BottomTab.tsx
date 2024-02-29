@@ -1,12 +1,36 @@
 import { router } from 'expo-router'
-import { StyleSheet, TouchableHighlight } from 'react-native'
-import Block from '~components/atoms/Block'
+import { useAtom } from 'jotai'
+import { useEffect } from 'react'
+import { Animated, StyleSheet, TouchableHighlight } from 'react-native'
 import Icon from '~components/atoms/Icon'
 import { useTheme } from '~providers/ThemeProvider'
+import { showNewHabitInputAtom } from '~states/saveInput'
+
+const marginBottom = new Animated.Value(0)
 
 const BottomTab = () => {
   // Services
   const { colors } = useTheme()
+
+  // Global state
+  const [showNewHabitInput, setShowNewHabitInput] = useAtom(showNewHabitInputAtom)
+
+  // When showNewHabitInput changes value
+  useEffect(() => {
+    if (showNewHabitInput) {
+      Animated.timing(marginBottom, {
+        toValue: -20,
+        duration: 400,
+        useNativeDriver: false
+      }).start()
+    } else {
+      Animated.timing(marginBottom, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: false
+      }).start()
+    }
+  }, [showNewHabitInput])
 
   // Navigation
   const goToArchive = () => {
@@ -17,22 +41,29 @@ const BottomTab = () => {
     router.push('settings')
   }
 
+  /**
+   * Toggle new habit input
+   */
+  const toggleNewHabitInput = () => {
+    setShowNewHabitInput(!showNewHabitInput)
+  }
+
   return (
-    <Block row colCenter spaceBetween style={styles.container}>
+    <Animated.View style={{ ...styles.container, marginBottom }}>
       <TouchableHighlight onPress={goToArchive} underlayColor={colors.n20} style={styles.button}>
         <Icon type="box" color={colors.n80} size={24} />
       </TouchableHighlight>
       <TouchableHighlight
-        onPress={goToSettings}
+        onPress={toggleNewHabitInput}
         underlayColor={colors.n60}
         style={{ ...styles.button, backgroundColor: colors.n80 }}
       >
-        <Icon type="plus" color={colors.n10} size={20} />
+        <Icon type={showNewHabitInput ? 'keyboard-down' : 'plus'} color={colors.n10} size={20} />
       </TouchableHighlight>
       <TouchableHighlight onPress={goToSettings} underlayColor={colors.n20} style={styles.button}>
         <Icon type="settings" color={colors.n80} size={24} />
       </TouchableHighlight>
-    </Block>
+    </Animated.View>
   )
 }
 
@@ -40,7 +71,14 @@ const BottomTab = () => {
  * Styles
  */
 const styles = StyleSheet.create({
-  container: { marginHorizontal: 50, paddingTop: 10 },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 50,
+    paddingTop: 10
+  },
   button: {
     width: 44,
     height: 44,

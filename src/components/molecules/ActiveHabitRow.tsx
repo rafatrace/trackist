@@ -5,6 +5,7 @@ import TextLabel from '~components/atoms/TextLabel'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
 import Checkbox from './Checkbox'
+import { router } from 'expo-router'
 
 type TActiveHabitRowProps = {
   habit: THabit
@@ -15,10 +16,21 @@ const ActiveHabitRow = ({ habit, isLast }: TActiveHabitRowProps) => {
   // Services
   const { colors } = useTheme()
 
+  const goToSingleScreen = () => {
+    router.push({
+      pathname: '/habit/[id]',
+      params: { id: habit.id }
+    })
+  }
+
   return (
     <Block style={{ ...styles.container, marginBottom: isLast ? 0 : 4 }}>
       {/* Main row button */}
-      <TouchableHighlight style={{ ...styles.rowButton, backgroundColor: colors.n10 }}>
+      <TouchableHighlight
+        onPress={goToSingleScreen}
+        underlayColor={colors.n20}
+        style={{ ...styles.rowButton, backgroundColor: colors.n10 }}
+      >
         <Block row colCenter>
           <Block flex={1} style={styles.text}>
             <TextLabel color="n80" height={24}>

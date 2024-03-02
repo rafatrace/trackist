@@ -29,6 +29,7 @@ export default function Layout() {
           <Stack.Screen name="index" />
           <Stack.Screen name="settings" options={{ title: 'Settings', presentation: 'modal' }} />
           <Stack.Screen name="archive" options={{ title: 'Archive', presentation: 'modal' }} />
+          <Stack.Screen name="habit/[id]" options={{ title: 'Habit', presentation: 'modal' }} />
         </Stack>
       </HabitsProvider>
     </ThemeProvider>

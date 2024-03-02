@@ -1,24 +1,8 @@
-import { SQLiteDatabase } from 'expo-sqlite'
+import { habits } from 'db/schema'
+import { ExpoSQLiteDatabase } from 'drizzle-orm/expo-sqlite/driver'
 
-const addNewHabit = async (db: SQLiteDatabase, title: string) => {
-  return new Promise((resolve, reject) => {
-    db.transaction(
-      (tx) => {
-        tx.executeSql(
-          `
-          INSERT INTO habits (name, isArchived) 
-          VALUES (?, 0)`,
-          [title]
-        )
-      },
-      (error) => {
-        reject(error)
-      },
-      () => {
-        resolve(true)
-      }
-    )
-  })
+const addNewHabit = async (db: ExpoSQLiteDatabase<Record<string, never>>, name: string) => {
+  return db.insert(habits).values({ name }).returning()
 }
 
 export default addNewHabit

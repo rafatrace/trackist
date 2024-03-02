@@ -20,12 +20,12 @@ const NewHabitInput = () => {
   const [showNewHabitInput, setShowNewHabitInput] = useAtom(showNewHabitInputAtom)
 
   // Local state
-  const [title, setTitle] = useState<string>('')
+  const [name, setName] = useState<string>('')
 
   const save = async () => {
-    await addNew(title)
+    await addNew(name)
     setShowNewHabitInput(false)
-    setTitle('')
+    setName('')
   }
 
   if (!showNewHabitInput) return null
@@ -44,8 +44,8 @@ const NewHabitInput = () => {
         selectionColor={colors.n80}
         style={{ ...styles.input, backgroundColor: colors.n10 }}
         onLayout={focus}
-        value={title}
-        onChangeText={(val) => setTitle(val)}
+        value={name}
+        onChangeText={(val) => setName(val)}
         onSubmitEditing={save}
         enterKeyHint="send"
         onBlur={() => setShowNewHabitInput(false)}

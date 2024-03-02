@@ -13,7 +13,8 @@ module.exports = function (api) {
           },
           extensions: ['.ios.js', '.android.js', '.js', '.jsx', '.json', '.tsx', '.ts', '.native.js']
         }
-      ]
+      ],
+      ['inline-import', { extensions: ['.sql'] }]
     ]
   }
 }

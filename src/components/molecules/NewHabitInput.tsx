@@ -14,7 +14,7 @@ const NewHabitInput = () => {
 
   // Services
   const { colors } = useTheme()
-  const { addNew } = useHabits()
+  const { createHabit } = useHabits()
 
   // Global state
   const [showNewHabitInput, setShowNewHabitInput] = useAtom(showNewHabitInputAtom)
@@ -23,7 +23,7 @@ const NewHabitInput = () => {
   const [name, setName] = useState<string>('')
 
   const save = async () => {
-    await addNew(name)
+    await createHabit(name)
     setShowNewHabitInput(false)
     setName('')
   }

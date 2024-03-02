@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import { openDatabaseSync } from 'expo-sqlite/next'
 import { migrateHabitTables } from '~queries/executeMigrations'
-
-const db = openDatabaseSync('trackist.db')
 
 export default function useDatabase() {
   const [ready, setReady] = useState(false)
@@ -11,7 +8,7 @@ export default function useDatabase() {
   useEffect(() => {
     async function executeMigrations() {
       try {
-        await migrateHabitTables(db)
+        await migrateHabitTables()
 
         setReady(true)
       } catch (e) {
@@ -23,5 +20,5 @@ export default function useDatabase() {
     executeMigrations()
   }, [])
 
-  return { ready, error, db }
+  return { ready, error }
 }

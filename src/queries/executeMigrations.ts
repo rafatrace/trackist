@@ -1,6 +1,6 @@
-import { SQLiteDatabase } from 'expo-sqlite/next'
+import { db } from '~utils/getDb'
 
-const migrateHabitTables = async (db: SQLiteDatabase) => {
+const migrateHabitTables = async () => {
   return db.execAsync(`
     CREATE TABLE IF NOT EXISTS habits (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,

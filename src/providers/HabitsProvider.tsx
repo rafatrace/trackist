@@ -1,24 +1,21 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { THabit } from '~@types/habits'
-import addNewHabit from '~queries/addNewHabit'
-import getActiveHabits from '~queries/getActiveHabits'
-import { drizzle } from 'drizzle-orm/expo-sqlite/driver'
-import { openDatabaseSync } from 'expo-sqlite/next'
+import createHabitQuery from '~queries/createHabitQuery'
+import getActiveHabitsQuery from '~queries/getActiveHabitsQuery'
+import removeHabitQuery from '~queries/removeHabitQuery'
 
 /**
  * Create context
  */
 export const HabitsContext = createContext<{
   activeHabits: THabit[]
-  addNew: (title: string) => Promise<any>
+  createHabit: (title: string) => Promise<any>
+  removeHabit: (id: string) => Promise<any>
 }>({
   activeHabits: [],
-  addNew: null
+  createHabit: null,
+  removeHabit: null
 })
-
-// Database
-const expo = openDatabaseSync('trackist.db')
-const db = drizzle(expo)
 
 /**
  * Create provider
@@ -36,23 +33,35 @@ export default function HabitsProvider({ children }: React.PropsWithChildren<unk
    * Load active habits into state
    */
   const loadActiveHabits = async () => {
-    const result = await getActiveHabits(db)
+    const result = await getActiveHabitsQuery()
     setActiveHabits(result)
   }
 
   /**
    * Add new habit
    */
-  const addNew = async (name: string) => {
+  const createHabit = async (name: string) => {
     try {
-      await addNewHabit(db, name)
+      await createHabitQuery(name)
       loadActiveHabits()
     } catch (e) {
       console.log(e)
     }
   }
 
-  return <HabitsContext.Provider value={{ activeHabits, addNew }}>{children}</HabitsContext.Provider>
+  /**
+   * Delete habit
+   */
+  const removeHabit = async (id: string) => {
+    try {
+      await removeHabitQuery(id)
+      loadActiveHabits()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  return <HabitsContext.Provider value={{ activeHabits, createHabit, removeHabit }}>{children}</HabitsContext.Provider>
 }
 
 export function useHabits() {

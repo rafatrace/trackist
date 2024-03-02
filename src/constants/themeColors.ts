@@ -9,7 +9,8 @@ const themeColors: Record<Themes, Colors> = {
     n60: '#3F3F3F',
     n70: '#1B1C1D',
     n80: '#101313',
-    accent: '#37A79E'
+    accent: '#37A79E',
+    danger: '#FF3939'
   },
   dark: {
     n10: '#101313',
@@ -19,7 +20,8 @@ const themeColors: Record<Themes, Colors> = {
     n60: '#D9D9DD',
     n70: '#F3F3F3',
     n80: '#FFFFFF',
-    accent: '#37A79E'
+    accent: '#37A79E',
+    danger: '#FF3939'
   }
 }
 
@@ -36,4 +38,5 @@ export type Colors = {
   n70: string
   n80: string
   accent: string
+  danger: string
 }

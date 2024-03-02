@@ -10,6 +10,10 @@ import { useHabits } from '~providers/HabitsProvider'
 import OptionButton from '~components/molecules/OptionButton'
 import { useTheme } from '~providers/ThemeProvider'
 import SmallTitle from '~components/atoms/SmallTitle'
+import BottomModal from '~components/organisms/BottomModal'
+import DangerButton from '~components/molecules/DangerButton'
+import DeleteBottomModal from '~components/screens/Habit/DeleteBottomModal'
+import Options from '~components/screens/Habit/Options'
 
 export default function Habit() {
   // Router
@@ -21,6 +25,7 @@ export default function Habit() {
 
   // Local state
   const [habit, setHabit] = useState<THabit>(null)
+  const [open, setOpen] = useState<boolean>(false)
 
   // Load
   useEffect(() => {
@@ -37,12 +42,21 @@ export default function Habit() {
     }
   }
 
+  const alertAboutRemoval = () => {
+    setOpen(true)
+  }
+
   /**
    * Remove and go back
    */
   const remove = async () => {
+    close()
     await removeHabit(id)
     goBack()
+  }
+
+  const close = () => {
+    setOpen(false)
   }
 
   return (
@@ -57,24 +71,20 @@ export default function Habit() {
           </TouchableOpacity>
         </Block>
 
+        {/* Habit name */}
         <Block style={{ marginTop: 10 }}>
           <TextLabel size="xl" weight="medium" color="n80">
             {habit?.name}
           </TextLabel>
         </Block>
 
+        {/* Statistics */}
         <SmallTitle>Statistics</SmallTitle>
 
-        <SmallTitle>More</SmallTitle>
-        <Block style={{ marginTop: 5 }}>
-          <OptionButton icon="box" action={() => console.log('archive')}>
-            Archive habit
-          </OptionButton>
-          <OptionButton icon="trash" action={remove}>
-            Delete forever
-          </OptionButton>
-        </Block>
+        <Options archive={() => console.log('archive')} remove={alertAboutRemoval} />
       </SafeAreaView>
+
+      <DeleteBottomModal {...{ open, close, habit, remove }} />
     </Block>
   )
 }

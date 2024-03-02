@@ -1,5 +1,5 @@
 import { habits } from 'db/schema'
-import { orm } from '~utils/getDb'
+import { orm } from '~utils/getDatabase'
 import { eq } from 'drizzle-orm'
 import { SQLiteRunResult } from 'expo-sqlite/next'
 

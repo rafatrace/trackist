@@ -42,7 +42,7 @@ const NewHabitInput = () => {
         placeholderTextColor={colors.n40}
         cursorColor={colors.n80}
         selectionColor={colors.n80}
-        style={{ ...styles.input, backgroundColor: colors.n10 }}
+        style={{ ...styles.input, color: colors.n80, backgroundColor: colors.n10 }}
         onLayout={focus}
         value={name}
         onChangeText={(val) => setName(val)}

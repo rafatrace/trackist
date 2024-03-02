@@ -1,6 +1,6 @@
 import { THabit } from '~@types/habits'
 import { habits } from 'db/schema'
-import { orm } from '~utils/getDb'
+import { orm } from '~utils/getDatabase'
 import { eq } from 'drizzle-orm'
 
 const getHabitQuery = async (id: string): Promise<THabit> => {

@@ -1,4 +1,4 @@
-import { db } from '~utils/getDb'
+import { db } from '~utils/getDatabase'
 
 const migrateHabitTables = async () => {
   return db.execAsync(`

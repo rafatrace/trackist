@@ -1,19 +1,17 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { TouchableHighlight, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { THabit } from '~@types/habits'
 import Block from '~components/atoms/Block'
-import TextLabel from '~components/atoms/TextLabel'
 import getHabitQuery from '~queries/getHabitQuery'
 import { useHabits } from '~providers/HabitsProvider'
-import OptionButton from '~components/molecules/OptionButton'
 import { useTheme } from '~providers/ThemeProvider'
 import SmallTitle from '~components/atoms/SmallTitle'
-import BottomModal from '~components/organisms/BottomModal'
-import DangerButton from '~components/molecules/DangerButton'
 import DeleteBottomModal from '~components/screens/Habit/DeleteBottomModal'
 import Options from '~components/screens/Habit/Options'
+import StreakHeader from '~components/screens/Habit/StreakHeader'
+import Animated, { FadeInDown } from 'react-native-reanimated'
+import Statistics from '~components/screens/Habit/Statistics'
 
 export default function Habit() {
   // Router
@@ -36,14 +34,14 @@ export default function Habit() {
     loadHabit()
   }, [id])
 
+  const alertAboutRemoval = () => {
+    setOpen(true)
+  }
+
   const goBack = () => {
     if (router.canGoBack()) {
       router.back()
     }
-  }
-
-  const alertAboutRemoval = () => {
-    setOpen(true)
   }
 
   /**
@@ -60,28 +58,19 @@ export default function Habit() {
   }
 
   return (
-    <Block flex={1} style={{ padding: 20, backgroundColor: colors.n10 }}>
+    <Block flex={1} style={{ backgroundColor: colors.n10 }}>
       <SafeAreaView edges={['bottom']}>
-        {/* Header */}
-        <Block row rowEnd>
-          <TouchableOpacity onPress={goBack}>
-            <TextLabel size="lg" color="n80">
-              Close
-            </TextLabel>
-          </TouchableOpacity>
-        </Block>
+        {/* Close, Streak illustration and Title */}
+        <StreakHeader {...{ habit, goBack }} />
 
-        {/* Habit name */}
-        <Block style={{ marginTop: 10 }}>
-          <TextLabel size="xl" weight="medium" color="n80">
-            {habit?.name}
-          </TextLabel>
-        </Block>
-
-        {/* Statistics */}
-        <SmallTitle>Statistics</SmallTitle>
-
-        <Options archive={() => console.log('archive')} remove={alertAboutRemoval} />
+        <Animated.View entering={FadeInDown.delay(700).springify()}>
+          <Block style={{ padding: 20 }}>
+            {/* Statistics */}
+            <Statistics />
+            {/* Options menu */}
+            <Options archive={() => console.log('archive')} remove={alertAboutRemoval} />
+          </Block>
+        </Animated.View>
       </SafeAreaView>
 
       <DeleteBottomModal {...{ open, close, habit, remove }} />

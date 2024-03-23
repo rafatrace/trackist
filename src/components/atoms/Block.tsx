@@ -1,4 +1,4 @@
-import { View, StyleProp, ViewStyle, StyleSheet } from 'react-native'
+import { View, StyleProp, ViewStyle, StyleSheet, LayoutChangeEvent } from 'react-native'
 
 interface BlockProps {
   flex?: number
@@ -14,6 +14,7 @@ interface BlockProps {
   rowEnd?: boolean
   spaceBetween?: boolean
   alignCenter?: boolean
+  onLayout?: (event: LayoutChangeEvent) => void
   style?: StyleProp<ViewStyle>
   children?: React.ReactNode
 }
@@ -36,7 +37,11 @@ export default function Block(props: BlockProps) {
     props.style
   ]
 
-  return <View style={blockStyles}>{props.children}</View>
+  return (
+    <View style={blockStyles} onLayout={props.onLayout}>
+      {props.children}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

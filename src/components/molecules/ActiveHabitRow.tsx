@@ -9,10 +9,9 @@ import { router } from 'expo-router'
 
 type TActiveHabitRowProps = {
   habit: THabit
-  isLast: boolean
 }
 
-const ActiveHabitRow = ({ habit, isLast }: TActiveHabitRowProps) => {
+const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
   // Services
   const { colors } = useTheme()
 
@@ -24,7 +23,7 @@ const ActiveHabitRow = ({ habit, isLast }: TActiveHabitRowProps) => {
   }
 
   return (
-    <Block style={{ ...styles.container, marginBottom: isLast ? 0 : 4 }}>
+    <Block style={styles.container}>
       {/* Main row button */}
       <TouchableHighlight
         onPress={goToSingleScreen}

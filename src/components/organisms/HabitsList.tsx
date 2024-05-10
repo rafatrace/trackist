@@ -1,10 +1,13 @@
+import { useAtom } from 'jotai'
 import { ScrollView, StyleSheet } from 'react-native'
 import { THabit } from '~@types/habits'
 import Block from '~components/atoms/Block'
+import Empty from '~components/atoms/Empty'
 import ActiveHabitRow from '~components/molecules/ActiveHabitRow'
 import NewHabitInput from '~components/molecules/NewHabitInput'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
+import { showNewHabitInputAtom } from '~states/saveInput'
 
 type THabitsListProps = {
   habits: THabit[]
@@ -14,14 +17,23 @@ const HabitsList = ({ habits }: THabitsListProps) => {
   // Services
   const { colors } = useTheme()
 
+  // Global state
+  const [showNewHabitInput] = useAtom(showNewHabitInputAtom)
+
+  const backgroundColor = habits.length || showNewHabitInput ? colors.n20 : colors.n10
+
   return (
     <Block flex={1} style={styles.container}>
-      <Block style={{ ...styles.backPanel, backgroundColor: colors.n20 }}>
+      <Block style={{ ...styles.backPanel, backgroundColor }}>
         <ScrollView contentContainerStyle={styles.scrollView} keyboardShouldPersistTaps="handled">
-          {habits.map((habit, index) => (
-            <ActiveHabitRow key={habit.id} {...{ habit }} isLast={index === habits.length - 1} />
-          ))}
-          <NewHabitInput />
+          <Block gap={4} rowCenter={!habits.length && !showNewHabitInput}>
+            {habits.length || showNewHabitInput ? (
+              habits.map((habit) => <ActiveHabitRow key={habit.id} {...{ habit }} />)
+            ) : (
+              <Empty />
+            )}
+            <NewHabitInput />
+          </Block>
         </ScrollView>
       </Block>
     </Block>

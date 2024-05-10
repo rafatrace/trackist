@@ -61,7 +61,7 @@ const NewHabitInput = () => {
  * Styles
  */
 const styles = StyleSheet.create({
-  container: { position: 'relative', marginTop: 4 },
+  container: { position: 'relative' },
   input: { paddingLeft: 14, paddingVertical: 14, paddingRight: 40, borderRadius: radius.lg },
   save: { position: 'absolute', top: 2, right: 0, padding: 10 }
 })

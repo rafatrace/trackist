@@ -1,14 +1,13 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { THabit } from '~@types/habits'
 import createHabitQuery from '~queries/createHabitQuery'
-import getActiveHabitsQuery from '~queries/getActiveHabitsQuery'
+import getActiveHabitsQuery, { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
 import removeHabitQuery from '~queries/removeHabitQuery'
 
 /**
  * Create context
  */
 export const HabitsContext = createContext<{
-  activeHabits: THabit[]
+  activeHabits: THabitWithTodayCheck[]
   createHabit: (title: string) => Promise<any>
   removeHabit: (id: string) => Promise<any>
 }>({
@@ -22,7 +21,7 @@ export const HabitsContext = createContext<{
  */
 export default function HabitsProvider({ children }: React.PropsWithChildren<unknown>) {
   // State
-  const [activeHabits, setActiveHabits] = useState<THabit[]>([])
+  const [activeHabits, setActiveHabits] = useState<THabitWithTodayCheck[]>([])
 
   // Load habits on first load after database is ready
   useEffect(() => {

@@ -64,9 +64,7 @@ export default function Habit() {
 
         <Animated.View entering={FadeInDown.delay(700).springify()}>
           <Block style={{ padding: 20 }}>
-            {/* Statistics */}
             <Statistics />
-            {/* Options menu */}
             <Options archive={() => console.log('archive')} remove={alertAboutRemoval} />
           </Block>
         </Animated.View>

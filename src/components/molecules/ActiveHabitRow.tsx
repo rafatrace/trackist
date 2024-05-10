@@ -1,14 +1,14 @@
 import { StyleSheet, TouchableHighlight } from 'react-native'
-import { THabit } from '~@types/habits'
 import Block from '~components/atoms/Block'
 import TextLabel from '~components/atoms/TextLabel'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
 import Checkbox from './Checkbox'
 import { router } from 'expo-router'
+import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
 
 type TActiveHabitRowProps = {
-  habit: THabit
+  habit: THabitWithTodayCheck
 }
 
 const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
@@ -40,7 +40,7 @@ const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
       </TouchableHighlight>
 
       {/* Checkbox */}
-      <Checkbox isActive={true} action={() => console.log(123)} />
+      <Checkbox isActive={habit.isChecked} action={() => console.log(123)} />
     </Block>
   )
 }

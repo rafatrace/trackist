@@ -12,15 +12,15 @@ export const habits = sqliteTable('habits', {
 
 export const checks = sqliteTable('checks', {
   id: integer('id').primaryKey({ autoIncrement: true }),
-  habitId: text('habitId').references(() => habits.id),
-  createdAt: text('password')
+  habitId: integer('habitId').references(() => habits.id),
+  createdAt: text('createdAt')
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`)
 })
 
 export const statistics = sqliteTable('statistics', {
   id: integer('id').primaryKey({ autoIncrement: true }),
-  habitId: text('habitId').references(() => habits.id),
+  habitId: integer('habitId').references(() => habits.id),
   currentStreak: integer('currentStreak').notNull().default(0),
   bestStreak: integer('bestStreak').notNull().default(0),
   assiduity: integer('assiduity').notNull().default(0),

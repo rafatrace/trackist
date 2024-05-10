@@ -1,16 +1,16 @@
 import { useAtom } from 'jotai'
 import { ScrollView, StyleSheet } from 'react-native'
-import { THabit } from '~@types/habits'
 import Block from '~components/atoms/Block'
 import Empty from '~components/atoms/Empty'
 import ActiveHabitRow from '~components/molecules/ActiveHabitRow'
 import NewHabitInput from '~components/molecules/NewHabitInput'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
+import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
 import { showNewHabitInputAtom } from '~states/saveInput'
 
 type THabitsListProps = {
-  habits: THabit[]
+  habits: THabitWithTodayCheck[]
 }
 
 const HabitsList = ({ habits }: THabitsListProps) => {

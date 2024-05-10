@@ -11,7 +11,9 @@ const getHabitQuery = async (id: string): Promise<THabit> => {
     .limit(1)
 
   if (result?.[0] != null) {
-    return result[0] as THabit
+    const habit = result[0] as THabit
+
+    return habit
   }
 
   return null

@@ -4,10 +4,6 @@ import useDatabase from '~hooks/useDatabase'
 import HabitsProvider from '~providers/HabitsProvider'
 import ThemeProvider from '~providers/ThemeProvider'
 
-if (__DEV__) {
-  import('../reactotron').then(() => console.log('Reactotron Configured'))
-}
-
 SplashScreen.preventAutoHideAsync()
 
 export default function Layout() {

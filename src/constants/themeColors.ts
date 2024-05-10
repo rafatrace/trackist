@@ -9,7 +9,7 @@ const themeColors: Record<Themes, Colors> = {
     n60: '#3F3F3F',
     n70: '#1B1C1D',
     n80: '#101313',
-    accent: '#37A79E',
+    accent: '#101313',
     danger: '#FF3939'
   },
   dark: {
@@ -20,7 +20,7 @@ const themeColors: Record<Themes, Colors> = {
     n60: '#D9D9DD',
     n70: '#F3F3F3',
     n80: '#FFFFFF',
-    accent: '#37A79E',
+    accent: '#FFFFFF',
     danger: '#FF3939'
   }
 }

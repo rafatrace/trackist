@@ -1,12 +1,8 @@
 import Svg, { SvgProps, Path } from 'react-native-svg'
 import Block from './Block'
 import TextLabel from './TextLabel'
-import { useTheme } from '~providers/ThemeProvider'
 
 const Empty = (props: SvgProps) => {
-  // Services
-  const { colors } = useTheme()
-
   return (
     <Block rowCenter>
       <Svg width={140} height={153} fill="none" {...props} style={{ marginTop: 100 }}>

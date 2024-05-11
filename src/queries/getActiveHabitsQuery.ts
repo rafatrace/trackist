@@ -4,7 +4,7 @@ import { orm } from '~utils/getDatabase'
 import { sql } from 'drizzle-orm'
 import dayjs from 'dayjs'
 
-export type THabitWithTodayCheck = THabit & { isChecked: boolean }
+export type THabitWithTodayCheck = THabit & { isChecked: boolean; checkId: number }
 
 const getActiveHabitsQuery = async (): Promise<THabitWithTodayCheck[]> => {
   const today = dayjs(Date.now()).format('YYYY-MM-DD')
@@ -15,11 +15,12 @@ const getActiveHabitsQuery = async (): Promise<THabitWithTodayCheck[]> => {
       CASE
           WHEN checks.id IS NULL THEN false
           ELSE true
-      END AS isChecked
+      END AS isChecked,
+      checks.id AS checkId
     FROM ${habits}
     LEFT OUTER JOIN ${checks} 
       ON ${checks.habitId} = ${habits.id} 
-        AND ${checks.createdAt} = ${today}`
+        AND ${checks.createdAt} >= datetime(${today})`
 
   let result: THabitWithTodayCheck[] = []
 

@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import checkHabit from '~queries/checkHabit'
 import createHabitQuery from '~queries/createHabitQuery'
 import getActiveHabitsQuery, { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
+import removeCheck from '~queries/removeCheck'
 import removeHabitQuery from '~queries/removeHabitQuery'
 
 /**
@@ -10,10 +12,12 @@ export const HabitsContext = createContext<{
   activeHabits: THabitWithTodayCheck[]
   createHabit: (title: string) => Promise<any>
   removeHabit: (id: string) => Promise<any>
+  toggleCheck: (habit: THabitWithTodayCheck) => Promise<any>
 }>({
   activeHabits: [],
   createHabit: null,
-  removeHabit: null
+  removeHabit: null,
+  toggleCheck: null
 })
 
 /**
@@ -60,7 +64,27 @@ export default function HabitsProvider({ children }: React.PropsWithChildren<unk
     }
   }
 
-  return <HabitsContext.Provider value={{ activeHabits, createHabit, removeHabit }}>{children}</HabitsContext.Provider>
+  /**
+   * Toggle check
+   */
+  const toggleCheck = async (habit: THabitWithTodayCheck) => {
+    try {
+      if (habit.isChecked) {
+        await removeCheck(habit.checkId)
+      } else {
+        await checkHabit(habit.id)
+      }
+      loadActiveHabits()
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  return (
+    <HabitsContext.Provider value={{ activeHabits, createHabit, removeHabit, toggleCheck }}>
+      {children}
+    </HabitsContext.Provider>
+  )
 }
 
 export function useHabits() {

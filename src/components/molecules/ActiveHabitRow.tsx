@@ -6,6 +6,7 @@ import { useTheme } from '~providers/ThemeProvider'
 import Checkbox from './Checkbox'
 import { router } from 'expo-router'
 import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
+import { useHabits } from '~providers/HabitsProvider'
 
 type TActiveHabitRowProps = {
   habit: THabitWithTodayCheck
@@ -14,6 +15,7 @@ type TActiveHabitRowProps = {
 const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
   // Services
   const { colors } = useTheme()
+  const { toggleCheck } = useHabits()
 
   const goToSingleScreen = () => {
     router.push({
@@ -40,7 +42,7 @@ const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
       </TouchableHighlight>
 
       {/* Checkbox */}
-      <Checkbox isActive={habit.isChecked} action={() => console.log(123)} />
+      <Checkbox isActive={habit.isChecked} action={() => toggleCheck(habit)} />
     </Block>
   )
 }

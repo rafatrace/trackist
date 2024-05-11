@@ -5,10 +5,13 @@ import TextLabel from '~components/atoms/TextLabel'
 import OptionButton from '~components/molecules/OptionButton'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
+import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
 
-type TStatisticsProps = {}
+type TStatisticsProps = {
+  habit: THabitWithTodayCheck
+}
 
-const Statistics = (_: TStatisticsProps) => {
+const Statistics = ({ habit }: TStatisticsProps) => {
   // Services
   const { colors } = useTheme()
 

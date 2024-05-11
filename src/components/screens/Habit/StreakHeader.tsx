@@ -1,16 +1,17 @@
 import Block from '~components/atoms/Block'
 import { LayoutChangeEvent, StyleSheet, TouchableOpacity } from 'react-native'
 import TextLabel from '~components/atoms/TextLabel'
-import { THabit } from '~@types/habits'
 import Pattern from './Pattern'
-import FlatIllustration from './FlameIllustration'
+import Flame from './Flame'
 import { useTheme } from '~providers/ThemeProvider'
 import Gradient from './Gradient'
 import { useState } from 'react'
 import Animated, { BounceIn, FadeInDown } from 'react-native-reanimated'
+import { THabitWithTodayCheckAndStreak } from '~queries/getActiveHabitsQuery'
+import dayjs from 'dayjs'
 
 type TStreakHeaderProps = {
-  habit: THabit | null
+  habit: THabitWithTodayCheckAndStreak | null
   goBack: () => void
 }
 
@@ -20,6 +21,8 @@ const StreakHeader = ({ habit, goBack }: TStreakHeaderProps) => {
 
   // Local state
   const [height, setHeight] = useState(0)
+
+  const today = dayjs(Date.now()).format('YYYY-MM-DD')
 
   /**
    * Check height of element
@@ -55,7 +58,7 @@ const StreakHeader = ({ habit, goBack }: TStreakHeaderProps) => {
                 borderColor: colors.n30
               }}
             >
-              <FlatIllustration />
+              <Flame dim={habit?.streaks?.[today] != null ? false : true} />
             </Block>
           </Animated.View>
 
@@ -65,7 +68,7 @@ const StreakHeader = ({ habit, goBack }: TStreakHeaderProps) => {
                 style={{ fontSize: 70, fontWeight: '800', lineHeight: 70, backgroundColor: colors.n10 }}
                 color="n80"
               >
-                9
+                {habit?.streaks?.[today] ?? 0}
               </TextLabel>
             </Block>
           </Animated.View>

@@ -5,17 +5,21 @@ import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
 import Checkbox from './Checkbox'
 import { router } from 'expo-router'
-import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
+import { THabitWithTodayCheckAndStreak } from '~queries/getActiveHabitsQuery'
 import { useHabits } from '~providers/HabitsProvider'
+import dayjs from 'dayjs'
+import Flame from '~components/screens/Habit/Flame'
 
 type TActiveHabitRowProps = {
-  habit: THabitWithTodayCheck
+  habit: THabitWithTodayCheckAndStreak
 }
 
 const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
   // Services
   const { colors } = useTheme()
   const { toggleCheck } = useHabits()
+
+  const today = dayjs(Date.now()).format('YYYY-MM-DD')
 
   const goToSingleScreen = () => {
     router.push({
@@ -38,6 +42,14 @@ const ActiveHabitRow = ({ habit }: TActiveHabitRowProps) => {
               {habit.name}
             </TextLabel>
           </Block>
+          {habit.streaks[today] != null && (
+            <Block row rowCenter colCenter gap={4}>
+              <TextLabel size="lg" weight="medium" color="n80">
+                {habit.streaks[today]}
+              </TextLabel>
+              <Flame size="tiny" />
+            </Block>
+          )}
         </Block>
       </TouchableHighlight>
 

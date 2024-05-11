@@ -1,22 +1,44 @@
-import { THabit } from '~@types/habits'
-import { habits } from 'db/schema'
+import { checks, habits } from 'db/schema'
 import { orm } from '~utils/getDatabase'
-import { eq } from 'drizzle-orm'
+import { sql } from 'drizzle-orm'
+import getHabitStreak from './getHabitStreak'
+import dayjs from 'dayjs'
+import { THabitWithTodayCheckAndStreak } from './getActiveHabitsQuery'
 
-const getHabitQuery = async (id: string): Promise<THabit> => {
-  const result = await orm
-    .select()
-    .from(habits)
-    .where(eq(habits.id, parseInt(id)))
-    .limit(1)
+const getHabitQuery = async (id: string): Promise<THabitWithTodayCheckAndStreak> => {
+  const today = dayjs(Date.now()).format('YYYY-MM-DD')
 
-  if (result?.[0] != null) {
-    const habit = result[0] as THabit
+  const statement = sql<THabitWithTodayCheckAndStreak>`
+    SELECT 
+      habits.*,
+      CASE
+          WHEN checks.id IS NULL THEN false
+          ELSE true
+      END AS isChecked,
+      checks.id AS checkId,
+      (COUNT(allChecks.id) * 100 / CAST(JULIANDAY(DATE(${today})) - JULIANDAY(DATE(habits.createdAt)) AS INT)) AS assiduity
+    FROM ${habits}
+    LEFT OUTER JOIN ${checks} 
+      ON ${checks.habitId} = ${habits.id} 
+        AND ${checks.createdAt} >= datetime(${today})
+    LEFT OUTER JOIN checks allChecks
+      ON allChecks.habitId = habits.id
+    WHERE ${habits.id} = ${id}
+    GROUP BY habits.id
+    LIMIT 1`
 
-    return habit
+  let result: THabitWithTodayCheckAndStreak = null
+
+  try {
+    result = orm.get(statement)
+  } catch (e) {
+    console.log(e)
   }
 
-  return null
+  const streaks = await getHabitStreak(result.id)
+  result.streaks = streaks
+
+  return result
 }
 
 export default getHabitQuery

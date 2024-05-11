@@ -2,18 +2,20 @@ import { StyleSheet } from 'react-native'
 import Block from '~components/atoms/Block'
 import SmallTitle from '~components/atoms/SmallTitle'
 import TextLabel from '~components/atoms/TextLabel'
-import OptionButton from '~components/molecules/OptionButton'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
-import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
+import { THabitWithTodayCheckAndStreak } from '~queries/getActiveHabitsQuery'
 
 type TStatisticsProps = {
-  habit: THabitWithTodayCheck
+  habit: THabitWithTodayCheckAndStreak
 }
 
 const Statistics = ({ habit }: TStatisticsProps) => {
   // Services
   const { colors } = useTheme()
+
+  const bestStreak =
+    habit?.streaks != null && Object.values(habit?.streaks).length ? Math.max(...Object.values(habit.streaks)) : 0
 
   return (
     <>
@@ -25,20 +27,21 @@ const Statistics = ({ habit }: TStatisticsProps) => {
           </TextLabel>
           <Block>
             <TextLabel size="lg" weight="bold" color="n80">
-              80%
+              {Math.round(habit?.assiduity)}%
             </TextLabel>
             <TextLabel size="md" color="n80">
               Assiduity
             </TextLabel>
           </Block>
         </Block>
+
         <Block row gap={4} flex={1} style={{ ...styles.box, backgroundColor: colors.n10 }}>
           <TextLabel size="xxl" weight="bold">
             ⚡
           </TextLabel>
           <Block>
             <TextLabel size="lg" weight="bold" color="n80">
-              432
+              {bestStreak}
             </TextLabel>
             <TextLabel size="md" color="n80">
               Best streak

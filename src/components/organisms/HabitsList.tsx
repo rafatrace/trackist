@@ -6,11 +6,11 @@ import ActiveHabitRow from '~components/molecules/ActiveHabitRow'
 import NewHabitInput from '~components/molecules/NewHabitInput'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
-import { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
+import { THabitWithTodayCheckAndStreak } from '~queries/getActiveHabitsQuery'
 import { showNewHabitInputAtom } from '~states/saveInput'
 
 type THabitsListProps = {
-  habits: THabitWithTodayCheck[]
+  habits: THabitWithTodayCheckAndStreak[]
 }
 
 const HabitsList = ({ habits }: THabitsListProps) => {

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import checkHabit from '~queries/checkHabit'
 import createHabitQuery from '~queries/createHabitQuery'
-import getActiveHabitsQuery, { THabitWithTodayCheck } from '~queries/getActiveHabitsQuery'
+import getActiveHabitsQuery, { THabitWithTodayCheckAndStreak } from '~queries/getActiveHabitsQuery'
 import removeCheck from '~queries/removeCheck'
 import removeHabitQuery from '~queries/removeHabitQuery'
 
@@ -9,10 +9,10 @@ import removeHabitQuery from '~queries/removeHabitQuery'
  * Create context
  */
 export const HabitsContext = createContext<{
-  activeHabits: THabitWithTodayCheck[]
+  activeHabits: THabitWithTodayCheckAndStreak[]
   createHabit: (title: string) => Promise<any>
   removeHabit: (id: string) => Promise<any>
-  toggleCheck: (habit: THabitWithTodayCheck) => Promise<any>
+  toggleCheck: (habit: THabitWithTodayCheckAndStreak) => Promise<any>
 }>({
   activeHabits: [],
   createHabit: null,
@@ -25,7 +25,7 @@ export const HabitsContext = createContext<{
  */
 export default function HabitsProvider({ children }: React.PropsWithChildren<unknown>) {
   // State
-  const [activeHabits, setActiveHabits] = useState<THabitWithTodayCheck[]>([])
+  const [activeHabits, setActiveHabits] = useState<THabitWithTodayCheckAndStreak[]>([])
 
   // Load habits on first load after database is ready
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function HabitsProvider({ children }: React.PropsWithChildren<unk
   /**
    * Toggle check
    */
-  const toggleCheck = async (habit: THabitWithTodayCheck) => {
+  const toggleCheck = async (habit: THabitWithTodayCheckAndStreak) => {
     try {
       if (habit.isChecked) {
         await removeCheck(habit.checkId)

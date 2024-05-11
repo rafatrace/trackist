@@ -1,7 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { THabit } from '~@types/habits'
 import Block from '~components/atoms/Block'
 import getHabitQuery from '~queries/getHabitQuery'
 import { useHabits } from '~providers/HabitsProvider'
@@ -11,6 +10,7 @@ import Options from '~components/screens/Habit/Options'
 import StreakHeader from '~components/screens/Habit/StreakHeader'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import Statistics from '~components/screens/Habit/Statistics'
+import { THabitWithTodayCheckAndStreak } from '~queries/getActiveHabitsQuery'
 
 export default function Habit() {
   // Router
@@ -21,7 +21,7 @@ export default function Habit() {
   const { removeHabit } = useHabits()
 
   // Local state
-  const [habit, setHabit] = useState<THabit>(null)
+  const [habit, setHabit] = useState<THabitWithTodayCheckAndStreak>(null)
   const [open, setOpen] = useState<boolean>(false)
 
   // Load

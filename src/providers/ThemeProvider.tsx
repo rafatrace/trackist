@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import themeColors, { Colors as ColorsType, Theme, Themes } from '~constants/themeColors'
+import themeColors, { Colors as ColorsType, Themes } from '~constants/themeColors'
 import { useColorScheme } from 'react-native'
 
 /**
@@ -10,12 +10,14 @@ export const ThemeContext = createContext<{
   theme: Themes
   colors: ColorsType
   isLoaded: boolean
+  systemDefault: boolean
   changeTopTheme?: (t: 'default' | Themes) => void
   changeColors?: (t: string) => void
 }>({
   theme: 'light',
   colors: themeColors.light,
   isLoaded: false,
+  systemDefault: true,
   changeTopTheme: () => null,
   changeColors: () => null
 })
@@ -66,7 +68,7 @@ export default function ThemeProvider({ children }: React.PropsWithChildren<unkn
   /**
    * Change top theme
    */
-  const changeTopTheme = (t: 'default' & Theme) => {
+  const changeTopTheme = (t: 'default' | Themes) => {
     if (t === 'default') {
       setSystemDefault(true)
       changeTheme(systemMode)
@@ -91,7 +93,7 @@ export default function ThemeProvider({ children }: React.PropsWithChildren<unkn
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, colors, isLoaded, changeTopTheme, changeColors }}>
+    <ThemeContext.Provider value={{ theme, colors, isLoaded, systemDefault, changeTopTheme, changeColors }}>
       {children}
     </ThemeContext.Provider>
   )

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "trackist",
+    "name": "Trackist",
     "slug": "trackist",
     "scheme": "trackist",
     "version": "1.0.0",
@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rafatrace.trackist",
-      "buildNumber": "0",
+      "buildNumber": "2",
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rafatrace.trackist"
     },
     "web": {
       "favicon": "./assets/favicon.png"

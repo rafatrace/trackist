@@ -2,6 +2,7 @@ import { THabit } from '~@types/habits'
 import TextLabel from '~components/atoms/TextLabel'
 import DangerButton from '~components/molecules/DangerButton'
 import BottomModal from '~components/organisms/BottomModal'
+import * as Haptics from 'expo-haptics'
 
 type TDeleteBottomModalProps = {
   habit: THabit
@@ -11,7 +12,14 @@ type TDeleteBottomModalProps = {
 }
 
 const DeleteBottomModal = ({ habit, open, close, remove }: TDeleteBottomModalProps) => {
-  // Services
+  /**
+   * Toggle new habit input
+   */
+  const removeWithHaptics = () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+    remove()
+  }
+
   return (
     <BottomModal {...{ open, close }} title="Are you sure?">
       <TextLabel size="md" weight="medium" color="n60" style={{ lineHeight: 20, marginVertical: 10 }}>
@@ -21,7 +29,7 @@ const DeleteBottomModal = ({ habit, open, close, remove }: TDeleteBottomModalPro
         </TextLabel>
         ? This action can’t be undone.
       </TextLabel>
-      <DangerButton action={remove}>Delete habit</DangerButton>
+      <DangerButton action={removeWithHaptics}>Delete habit</DangerButton>
     </BottomModal>
   )
 }

@@ -4,6 +4,7 @@ import Icon, { TIcons } from '~components/atoms/Icon'
 import TextLabel from '~components/atoms/TextLabel'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
+import * as Haptics from 'expo-haptics'
 
 type TOptionButtonProps = {
   icon: TIcons
@@ -15,9 +16,17 @@ const OptionButton = ({ icon, action, children }: TOptionButtonProps) => {
   // Services
   const { colors } = useTheme()
 
+  /**
+   * Add haptics to the main action
+   */
+  const onPress = () => {
+    Haptics.selectionAsync()
+    action()
+  }
+
   return (
     <Block>
-      <TouchableHighlight onPress={action} style={styles.button} underlayColor={colors.n20}>
+      <TouchableHighlight onPress={onPress} style={styles.button} underlayColor={colors.n20}>
         <Block row colCenter gap={18}>
           <Icon type={icon} color={colors.n80} size={22} />
           <Block flex={1} style={styles.text}>

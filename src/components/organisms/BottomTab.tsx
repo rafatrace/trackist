@@ -5,6 +5,7 @@ import { Animated, StyleSheet, TouchableHighlight } from 'react-native'
 import Icon from '~components/atoms/Icon'
 import { useTheme } from '~providers/ThemeProvider'
 import { showNewHabitInputAtom } from '~states/saveInput'
+import * as Haptics from 'expo-haptics'
 
 const marginBottom = new Animated.Value(0)
 
@@ -45,6 +46,7 @@ const BottomTab = () => {
    * Toggle new habit input
    */
   const toggleNewHabitInput = () => {
+    Haptics.selectionAsync()
     setShowNewHabitInput(!showNewHabitInput)
   }
 

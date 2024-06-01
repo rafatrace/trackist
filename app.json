@@ -39,6 +39,12 @@
         "projectId": "c12a6d53-a002-49d8-8b92-21de2fcc6abc"
       }
     },
-    "owner": "rafatrace"
+    "owner": "rafatrace",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/c12a6d53-a002-49d8-8b92-21de2fcc6abc"
+    }
   }
 }

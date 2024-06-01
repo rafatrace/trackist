@@ -7,6 +7,7 @@ import { radius } from '~constants/radius'
 import { useHabits } from '~providers/HabitsProvider'
 import { useTheme } from '~providers/ThemeProvider'
 import { showNewHabitInputAtom } from '~states/saveInput'
+import * as Haptics from 'expo-haptics'
 
 const NewHabitInput = () => {
   // Refs
@@ -23,6 +24,7 @@ const NewHabitInput = () => {
   const [name, setName] = useState<string>('')
 
   const save = async () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     await createHabit(name)
     setShowNewHabitInput(false)
     setName('')

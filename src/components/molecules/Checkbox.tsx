@@ -2,6 +2,7 @@ import { StyleSheet, TouchableHighlight } from 'react-native'
 import Icon from '~components/atoms/Icon'
 import { radius } from '~constants/radius'
 import { useTheme } from '~providers/ThemeProvider'
+import * as Haptics from 'expo-haptics'
 
 type TCheckboxProps = {
   isActive: boolean
@@ -12,9 +13,19 @@ const Checkbox = ({ isActive, action }: TCheckboxProps) => {
   // Services
   const { colors } = useTheme()
 
+  /**
+   * Add haptics to the main action
+   */
+  const onPress = () => {
+    const hapticsType = isActive ? 'Warning' : 'Success'
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType[hapticsType])
+
+    action()
+  }
+
   return (
     <TouchableHighlight
-      onPress={action}
+      onPress={onPress}
       underlayColor={colors.n20}
       style={{
         ...styles.checkbox,
